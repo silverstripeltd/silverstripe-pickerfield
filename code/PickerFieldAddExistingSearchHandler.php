@@ -2,7 +2,7 @@
 
 namespace TheWebmen\PickerField\Controllers;
 
-use SilverStripe\ORM\PaginatedList;
+use SilverStripe\Model\List\PaginatedList;
 use Symbiote\GridFieldExtensions\GridFieldAddExistingSearchHandler;
 use SilverStripe\ORM\DataList;
 

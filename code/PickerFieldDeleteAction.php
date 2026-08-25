@@ -2,9 +2,9 @@
 
 namespace TheWebmen\PickerField\Controllers;
 
+use SilverStripe\Model\List\ArrayList;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridFieldDeleteAction;
-use SilverStripe\ORM\ArrayList;
 
 class PickerFieldDeleteAction extends GridFieldDeleteAction {
 

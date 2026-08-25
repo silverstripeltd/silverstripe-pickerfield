@@ -2,8 +2,8 @@
 
 namespace TheWebmen\PickerField\Controllers;
 
-use SilverStripe\ORM\SS_List;
-use SilverStripe\View\ArrayData;
+use SilverStripe\Model\List\SS_List;
+use SilverStripe\Model\ArrayData;
 use Symbiote\GridFieldExtensions\GridFieldAddExistingSearchButton;
 use Symbiote\GridFieldExtensions\GridFieldExtensions;
 
@@ -25,10 +25,10 @@ class PickerFieldAddExistingSearchButton extends GridFieldAddExistingSearchButto
 	}
 
 	/**
-	 * Set a custom list to be searched on
-	 * @param SS_List $list
-	 */
-	public function setSearchList(SS_List $list) {
+     * Set a custom list to be searched on
+     * @param \SilverStripe\Model\List\SS_List $list
+     */
+    public function setSearchList(SS_List $list) {
 		$this->searchList = $list;
 	}
 
