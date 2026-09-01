@@ -31,7 +31,8 @@ class HasOnePickerField extends PickerField {
 		$this->childObject = $childObject;
 
 		// convert the has_one relation getter to a DataList / SS_List
-		$dataList = $modelClass::get()->filter(array('ID' => $currentHasOne->ID));
+		// A custom has_one getter may return null rather than the empty record the ORM gives back
+		$dataList = $modelClass::get()->filter(array('ID' => $currentHasOne?->ID ?? 0));
 
 		// construct the PickerField
 		parent::__construct($name, $title, $dataList, $linkExistingTitle);
