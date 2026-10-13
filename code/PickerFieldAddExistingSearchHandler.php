@@ -44,6 +44,7 @@ class PickerFieldAddExistingSearchHandler extends GridFieldAddExistingSearchHand
 		$fields = FieldList::create(
 			TextField::create('Title', 'Page name'),
 			TextField::create('Content', 'Content')
+				->setDescription('Searches the main page content only, not content blocks.')
 		);
 		$filters = array(
 			'Title'   => PartialMatchFilter::create('Title'),
