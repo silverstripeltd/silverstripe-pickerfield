@@ -2,9 +2,14 @@
 
 namespace TheWebmen\PickerField\Controllers;
 
+use SilverStripe\CMS\Model\SiteTree;
+use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\TextField;
 use SilverStripe\Model\List\PaginatedList;
-use Symbiote\GridFieldExtensions\GridFieldAddExistingSearchHandler;
 use SilverStripe\ORM\DataList;
+use SilverStripe\ORM\Filters\PartialMatchFilter;
+use SilverStripe\ORM\Search\SearchContext;
+use Symbiote\GridFieldExtensions\GridFieldAddExistingSearchHandler;
 
 class PickerFieldAddExistingSearchHandler extends GridFieldAddExistingSearchHandler {
 
@@ -13,6 +18,40 @@ class PickerFieldAddExistingSearchHandler extends GridFieldAddExistingSearchHand
 			'add',
 			'SearchForm'
 	);
+
+	/**
+	 * Builds the handler and gives page types a plain Title and Content search instead of the Pages admin search context.
+	 *
+	 * @param PickerField $grid - the picker field this handler searches for
+	 * @param PickerFieldAddExistingSearchButton $button - the button component that opened this handler
+	 */
+	public function __construct($grid, $button) {
+		parent::__construct($grid, $button);
+
+		// A string check, so this stays safe when silverstripe/cms is not installed
+		if(is_a($grid->getModelClass(), SiteTree::class, true)) {
+			$this->context = $this->createPageSearchContext($grid->getModelClass());
+		}
+	}
+
+	/**
+	 * Creates the search context used for page types, with partial-match Title and Content fields.
+	 *
+	 * @param string $modelClass - the page class being searched
+	 * @return SearchContext - a context holding only the Title and Content fields
+	 */
+	protected function createPageSearchContext($modelClass) {
+		$fields = FieldList::create(
+			TextField::create('Title', 'Page name'),
+			TextField::create('Content', 'Content')
+		);
+		$filters = array(
+			'Title'   => PartialMatchFilter::create('Title'),
+			'Content' => PartialMatchFilter::create('Content')
+		);
+
+		return SearchContext::create($modelClass, $fields, $filters);
+	}
 
 	public function add($request) {
 		// use native GridFieldAddExistingSearchHandler add() method when not has_one
